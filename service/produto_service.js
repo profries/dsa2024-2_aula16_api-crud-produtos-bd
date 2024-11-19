@@ -5,10 +5,10 @@ async function listar() {
     return await produtoRepositoryBD.listar();
 }
 
-function inserir(produto) {
+async function inserir(produto) {
     if(produto && produto.nome 
         && produto.categoria && produto.preco){
-            return produtoRepository.inserir(produto);
+            return await produtoRepositoryBD.inserir(produto);
     }
     else {
         throw { id: 400, msg: "Produto sem dados corretos"}

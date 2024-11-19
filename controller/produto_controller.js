@@ -17,10 +17,10 @@ function buscarPorId(req, res) {
 }
 
 //Inserir
-function inserir(req, res) {
+async function inserir(req, res) {
     const produto = req.body;
     try{
-      const produtoInserido = produtoService.inserir(produto);
+      const produtoInserido = await produtoService.inserir(produto);
       res.status(201).json(produtoInserido)
     }
     catch(err){
