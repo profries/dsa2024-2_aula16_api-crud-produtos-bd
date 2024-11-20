@@ -37,7 +37,46 @@ async function inserir(produto){
 
 }
 
+async function buscarPorId(id) {
+    const cliente = new Client(config);
+    await cliente.connect();
+    const sql = "SELECT * from produtos WHERE id=$1";
+    const values = [id];
+    const result = await cliente.query(sql, values);
+    await cliente.end();
+    const produtoEncontrado = result.rows[0];
+    return (produtoEncontrado);
+
+}
+
+async function atualizar(id, produto) {
+    const sql = 'UPDATE produtos set nome=$1, categoria=$2, preco=$3 WHERE id=$4 RETURNING *'
+    const values = [produto.nome, produto.categoria, produto.preco, id];
+
+    const cliente = new Client(config);
+    await cliente.connect();
+    const result = await cliente.query(sql, values);
+    await cliente.end();
+    const produtoAtualizado = result.rows[0];
+    return (produtoAtualizado);
+}
+
+async function deletar(id) {
+    const sql = 'DELETE FROM produtos WHERE id=$1 RETURNING *'
+    const values = [id];
+
+    const cliente = new Client(config);
+    await cliente.connect();
+    const result = await cliente.query(sql, values);
+    await cliente.end();
+    const produtoDeletado = result.rows[0];
+    return (produtoDeletado);
+}
+
 module.exports = {
     listar,
-    inserir
+    inserir,
+    buscarPorId,
+    atualizar,
+    deletar
 }

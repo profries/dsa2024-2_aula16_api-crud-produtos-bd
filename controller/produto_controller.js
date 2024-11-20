@@ -6,11 +6,11 @@ async function listar(req, res) {
 }
 
 //Buscar por id
-function buscarPorId(req, res) {
+async function buscarPorId(req, res) {
   // O + antes converte o valor para number (na URL vem como string)
   const id = +req.params.id;
   try {
-    res.json(produtoService.buscarPorId(id));
+    res.json(await produtoService.buscarPorId(id));
   } catch(err) {
     res.status(err.id).json(err)
   }
@@ -29,11 +29,11 @@ async function inserir(req, res) {
 }
 
 //Atualizar
-function atualizar (req, res) {
+async function atualizar (req, res) {
   const id = +req.params.id;
   const produto = req.body;
   try{
-    const produtoAtualizado = produtoService.atualizar(id, produto);
+    const produtoAtualizado = await produtoService.atualizar(id, produto);
     res.json(produtoAtualizado)
   }
   catch(err){
@@ -42,10 +42,10 @@ function atualizar (req, res) {
 }
 
 //Deletar
-function deletar(req, res) {
+async function deletar(req, res) {
   const id = +req.params.id;
   try {
-    res.json(produtoService.deletar(id));
+    res.json(await produtoService.deletar(id));
   } catch(err) {
     res.status(err.id).json(err)
   }
